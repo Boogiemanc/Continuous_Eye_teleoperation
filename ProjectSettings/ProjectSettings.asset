@@ -816,11 +816,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 
+  cloudProjectId: 120a2860-53e6-42cf-ab37-e850d86c8bfa
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: IROS2024-origin
+  organizationId: xdxdbleach0918
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   playerDataPath: 
