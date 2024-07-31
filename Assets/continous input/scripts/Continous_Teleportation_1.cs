@@ -12,11 +12,13 @@ public class testingcar : MonoBehaviour
     
     [SerializeField] private float accerlation = 0.2f;
     // Start is called before the first frame update
-    [SerializeField]  GameObject teleop_mode;
+   // [SerializeField]  GameObject teleop_mode;
     Vector2 XYTurning;
     private float movementspeed, accerlationRate;
     Continous_input_gaze controlInput;
     Transform Transform;
+
+   
 
     //The below Ros Content are similar to eye_teleoperation
     ROSConnection m_Ros;
@@ -25,8 +27,8 @@ public class testingcar : MonoBehaviour
     void Start()
     {
 
-        m_Ros = ROSConnection.GetOrCreateInstance();
-        m_Ros.RegisterPublisher<TwistMsg>(m_TopicName);
+      /*  m_Ros = ROSConnection.GetOrCreateInstance();
+        m_Ros.RegisterPublisher<TwistMsg>(m_TopicName);*/
 
     }
 
@@ -36,9 +38,10 @@ public class testingcar : MonoBehaviour
         accerlationRate = Continous_input_gaze.ExportAcc;
         XYTurning = Continous_input_gaze.ExportV2;
         movementspeed = accerlation;
-        //transform.position = transform.position + new Vector3(XYTurning.x+ movementspeed * Time.deltaTime,0, XYTurning.y+ movementspeed * Time.deltaTime);
+        transform.position = transform.position + new Vector3(XYTurning.x+ movementspeed * Time.deltaTime,0,0);
+        transform.rotation = Quaternion.Euler(0, Mathf.Rad2Deg * XYTurning.y , 0);
 
-        if (!navigation) {
+       /* if (!navigation) {
         Vector3<FLU> x = new Vector3<FLU>(XYTurning.x + movementspeed,0,0);
         Vector3<FLU> y = new Vector3<FLU>(0,0,XYTurning.x + movementspeed);
 
@@ -50,12 +53,12 @@ public class testingcar : MonoBehaviour
                 angular = y
             };
             m_Ros.Publish(m_TopicName,end_pos);
-        }
+        }*/
 
     }
 
-    bool GetNavigationState()
+   /* bool GetNavigationState()
     {
        return navigation = teleop_mode.GetComponent<robot_follower>().nav_;
-    }
+    }*/
 }

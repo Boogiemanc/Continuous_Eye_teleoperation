@@ -15,7 +15,7 @@ public class Tilt_detector : MonoBehaviour
 
     [SerializeField]
     float Time_threshold;
-    private Ray GetLeftTar_XRray, GetRightTar_XRray;
+    public static Ray GetLeftTar_XRray, GetRightTar_XRray;
     private RayInteractor GetLeftTar_RayInspector, GetRightTar_RayInspector;
     private Vector3 PlayPos;
     
@@ -92,7 +92,7 @@ public class Tilt_detector : MonoBehaviour
         if (GetLeftTar_RayInspector && GetRightTar_RayInspector != null)
         {
             Physics.Raycast(GetLeftTar_XRray, out RaycastHit hitdata_L);
-            Physics.Raycast(GetRightTar_XRray, out RaycastHit hitdata_R);
+          
             // Debug.Log($"hitdata point:{hitdata_L.point}\n");
 
             //Debug.Log(  $"RAY Cast Point {hitdata_L.point.ToVector3f()}\n");
@@ -137,12 +137,13 @@ public class Tilt_detector : MonoBehaviour
 
 
         GetLeftTar_XRray = L_EYE.GetComponent<RayInteractor>().Ray;
-        GetRightTar_XRray = R_EYE.GetComponent<RayInteractor>().Ray;
+
         PlayPos = eyeGaze.transform.position;
       //  Debug.Log(PlayPos);
         
 
     }
+
 
 
 
