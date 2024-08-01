@@ -59,7 +59,7 @@ public class Continous_input_gaze : MonoBehaviour
 
     private void Update()
     {
-        rayLeft = Tilt_detector.GetLeftTar_XRray;
+        rayLeft = Tiltchecknotimed.GetLeftTar_XRray;
         ExportV2 = ExportXYDirection(new Vector2(0, 0));
 
 

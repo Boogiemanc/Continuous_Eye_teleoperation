@@ -1,11 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.AI;
-
-using Unity.Robotics.ROSTCPConnector;
 using RosMessageTypes.Actionlib;
 using System.Linq;
+using Unity.Robotics.ROSTCPConnector;
+using UnityEngine;
+using UnityEngine.AI;
 
 // Created on September 2023
 // @author: samn (Samuel Millan-Norman, millan-normans@cardiff.ac.uk)
@@ -37,7 +34,7 @@ public class robot_follower : MonoBehaviour
     {
         if (cam_ == false)
         {
-            if(nav_ == true)
+            if (nav_ == true)
             {
                 Player.SetDestination(Robot.position);
             }
@@ -51,8 +48,9 @@ public class robot_follower : MonoBehaviour
 
     void ReceiveROScheckCmd(GoalStatusArrayMsg statusdata)
     {
-       
-        if (cam_ == false){
+
+        if (cam_ == false)
+        {
             if (statusdata.status_list.Count() != 0)
             {
                 int planner_running = statusdata.status_list[0].status;
@@ -77,7 +75,7 @@ public class robot_follower : MonoBehaviour
         Player.enabled = false;
         Vector3 new_position = new Vector3(-47.0f, 0.0f, -47.0f);
         transform.position = new_position;
-        transform.rotation =  Quaternion.Euler(0.0f, 0.0f, 0.0f);
+        transform.rotation = Quaternion.Euler(0.0f, 0.0f, 0.0f);
         cam_ = true;
     }
     public void switch_VR()

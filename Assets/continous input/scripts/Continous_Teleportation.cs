@@ -1,46 +1,50 @@
 using RosMessageTypes.Geometry;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using Unity.Robotics.ROSTCPConnector;
+using Unity.Robotics.ROSTCPConnector.ROSGeometry;
 using UnityEngine;
-using UnityEngine.UIElements;
+
 
 public class Continous_Teleportation : MonoBehaviour
 {
     [Header("Basic Values")]
 
     [SerializeField] float speed = 0.5f;
+    [SerializeField] float TurningRate = 0.2f;
+    [SerializeField] bool ROS_Connection;
     [SerializeField] GameObject children;
 
-    // Start is called before the first frame update
-    // [SerializeField]  GameObject teleop_mode;
+
     Vector2 XYTurning;
-   public static Vector3 newPos;
-    private float tantheta ,accerlationRate, Targetrotation;
-    private Quaternion previous_quaternion, targetRotation;
-    private Transform _children;
+    public static Vector3 newPos, TurnPos;
+    private float tantheta, MovingRate;
+
     private Rigidbody _childrenRigidbody;
-    private bool InstopArea;
-    
-    Transform Transform;
 
-
-
-    //The below Ros Content are similar to eye_teleoperation
+    //The below Ros realted Content are similar to eye_teleoperation.cs
+    bool Navigation;
+    private GameObject teleop_mode;
     ROSConnection m_Ros;
     string m_TopicName = "/stretch_diff_drive_controller/cmd_vel";
-    bool navigation;
     void Start()
     {
+        if (ROS_Connection)
+        {
+            m_Ros = ROSConnection.GetOrCreateInstance();
+            m_Ros.RegisterPublisher<TwistMsg>(m_TopicName);
 
-        /*  m_Ros = ROSConnection.GetOrCreateInstance();
-          m_Ros.RegisterPublisher<TwistMsg>(m_TopicName);*/
-        _children = children.transform;
-        _childrenRigidbody = children.GetComponent<Rigidbody>();
-        
-        
+        }
+        else
+        {
+
+
+            _childrenRigidbody = children.GetComponent<Rigidbody>();
+
+        }
+
+
+
+
+
 
 
     }
@@ -49,75 +53,90 @@ public class Continous_Teleportation : MonoBehaviour
     void Update()
     {
         //bool Is_turnning;
-        InstopArea = Continous_input_gaze.ISinarea;
-        accerlationRate = Continous_input_gaze.ExportAcc;
-        XYTurning = Continous_input_gaze.ExportV2;
-        //newPos = transform.forward * XYTurning.y + transform.right * XYTurning.x;
 
 
-        tantheta = Mathf.Atan2(XYTurning.x, XYTurning.y);
+
+        if (!Navigation)
+        {
+
+            MovingRate = Continous_input_gaze.ExportAcc;
+            XYTurning = Continous_input_gaze.ExportV2;
+            Navigation = teleop_mode.GetComponent<robot_follower>().nav_;
+            tantheta = Mathf.Atan2(XYTurning.x, XYTurning.y); //angle calculation here
 
 
-        //  Vector3 direction = new Vector3 (XYTurning.x,0,XYTurning.y) ;
-        if (accerlationRate>0.15f) {
-
-
-            
-            if (XYTurning.y >= 0)
+            if (MovingRate > 0.15f)
             {
-                float targetAngle =  tantheta;
-                targetRotation = Quaternion.Euler(0, targetAngle, 0);
-                _childrenRigidbody.angularVelocity = new Vector3 (0,targetAngle*0.1f,0);
+                //check if it's moving, the closer to the center ,lesser the velocity
+
+
+                if (XYTurning.y >= -0.5) //only turns when the robot is moving towards
+                {
+                    float targetAngle = tantheta;
+                    TurnPos = new Vector3(0, targetAngle * TurningRate, 0);
+                    if (!ROS_Connection)
+                    {
+                        _childrenRigidbody.angularVelocity = TurnPos;
+                    }
+
+                }
+
+                newPos = children.transform.forward * XYTurning.y;
+            }
+            else
+            {
+                newPos = Vector3.zero;
+
             }
 
-            newPos = children.transform.forward * XYTurning.y  ;
-        }
-        else
-        {
-            newPos = Vector3.zero;
+
+
+            if (!ROS_Connection)
+            {
+                children.transform.position += newPos * speed;
+            }
+            else
+            {
+                PublishDataToRos(TurnPos, newPos);
+
+            }
+
 
         }
-             
-            
 
-
-           children.transform.position += newPos * speed;
-           
-           
-
-           
-        }
 
     }
-       
 
-            
-           
-           
+    private void PublishDataToRos(Vector3 position, Vector3 rotation)
+    {
+        Vector3<FLU> x = new Vector3<FLU>(position);
+        Vector3<FLU> y = new Vector3<FLU>(rotation);
 
-        
+        var end_pos = new TwistMsg
+        {
+            linear = x,
+            angular = y
 
-
-  
-
-
-
-
-
-
-    /* if (!navigation) {
-     Vector3<FLU> x = new Vector3<FLU>(XYTurning.x + movementspeed,0,0);
-     Vector3<FLU> y = new Vector3<FLU>(0,0,XYTurning.x + movementspeed);
+        };
+        m_Ros.Publish(m_TopicName, end_pos);
 
 
+    }
 
-         var end_pos = new TwistMsg
-         {
-             linear = x,
-             angular = y
-         };
-         m_Ros.Publish(m_TopicName,end_pos);
-     }*/
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
