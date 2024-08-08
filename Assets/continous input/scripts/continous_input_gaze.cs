@@ -1,5 +1,3 @@
-using JetBrains.Annotations;
-using Oculus.Interaction;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,27 +6,27 @@ public class Continous_input_gaze : MonoBehaviour
 {
     [Header("Vector 3 debugging")]
     [SerializeField] private GameObject centerEyeCamera;
-   
+
 
     [Header("Canvas joystick testing")]
     [SerializeField] private GameObject joypadOrigin;
     [SerializeField] private GameObject joypadTarget;
-    
+
     [SerializeField] private GameObject joystickStop;
     [SerializeField] private GameObject joypadCanvas;
 
 
 
     // Debug Canvas
-    [SerializeField] private GameObject canvas;  
+    //[SerializeField] private GameObject canvas;
     //Debug edge point 
-    [SerializeField] private GameObject edgeCanvas;
+    // [SerializeField] private GameObject edgeCanvas;
     // DEBUG USE ONLY
     private TextMeshProUGUI debugText;
     private Camera _centerEyeCamera;
     private Ray rayLeft;
     private float canvasWidth, canvasHeight;
-    private RectTransform originCanvasRect, targetCanvasRect, canvasRect, stopRect,edgeRect;
+    private RectTransform originCanvasRect, targetCanvasRect, canvasRect, stopRect, edgeRect;
     private Image stoparea_Render;
     public static Vector2 ExportV2, originPoint;
     public static bool ISinarea = false;
@@ -42,17 +40,17 @@ public class Continous_input_gaze : MonoBehaviour
         originCanvasRect = joypadOrigin.GetComponent<RectTransform>();
         targetCanvasRect = joypadTarget.GetComponent<RectTransform>();
         stopRect = joystickStop.GetComponent<RectTransform>();
-       
+
         canvasRect = joypadCanvas.GetComponent<RectTransform>();
-        
+
         stoparea_Render = joystickStop.GetComponent<Image>();
-    
+
         _centerEyeCamera = centerEyeCamera.GetComponent<Camera>();
         canvasWidth = canvasRect.rect.width;
         canvasHeight = canvasRect.rect.height;
         //DEBUG CANVAS
-        edgeRect = edgeCanvas.GetComponent<RectTransform>();
-            debugText = canvas.GetComponent<TextMeshProUGUI>();
+        // edgeRect = edgeCanvas.GetComponent<RectTransform>();
+        //  debugText = canvas.GetComponent<TextMeshProUGUI>();
 
 
     }
@@ -75,8 +73,8 @@ public class Continous_input_gaze : MonoBehaviour
 
                 ISTracticking = true;
 
-                DisplayData(currentPt);
-
+                ExportData2bot(currentPt);
+                Debug.Log("Tracking started");
 
 
             }
@@ -136,16 +134,16 @@ public class Continous_input_gaze : MonoBehaviour
     }
 
 
-    private void DisplayData(Vector2 _curentPoint)
+    private void ExportData2bot(Vector2 _curentPoint)
     {
         Vector2 currentPoint = _curentPoint;
-         originPoint = originCanvasRect.anchoredPosition;
+        originPoint = originCanvasRect.anchoredPosition;
         Vector2 heading = currentPoint - originPoint;
         float gazeMagnitude = heading.magnitude;
         //get the length of the vector
         Vector2 direction = heading / gazeMagnitude;
         //normalise it 
-       
+
         //stoparea_Render.color = Color.white;
         Vector2 closest_point = GetClosestPointOnEdge(currentPoint);
         float accerlation_scale = (gazeMagnitude / (closest_point - originPoint).magnitude); // current location / the total length of the edge and origin point
@@ -172,15 +170,15 @@ public class Continous_input_gaze : MonoBehaviour
 
 
 
-         
-         edgeRect.anchoredPosition = new Vector2(closest_point.x, closest_point.y); //map the edgepoint for better debuging
-        debugText.text =
-                           $"eyeGaze_Coords: {currentPoint}\n" +
-                           $"accerlation: {accerlation_scale}\n" +
-                          $"accerlation: {direction}\n" +
-                            $"newPos: {Continous_Teleportation.newPos}\n"
 
-                         ; 
+        // edgeRect.anchoredPosition = new Vector2(closest_point.x, closest_point.y); //map the edgepoint for better debuging
+        /* debugText.text =
+                            $"eyeGaze_Coords: {currentPoint}\n" +
+                            $"accerlation: {accerlation_scale}\n" +
+                           $"accerlation: {direction}\n" +
+                             $"newPos: {Continous_Teleportation.newPos}\n" */
+
+        ;
     }
 
 
@@ -231,5 +229,5 @@ public class Continous_input_gaze : MonoBehaviour
     }
 
     ///getwidth , getheight
- 
+
 }

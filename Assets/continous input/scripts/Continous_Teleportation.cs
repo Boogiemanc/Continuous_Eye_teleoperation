@@ -15,31 +15,26 @@ public class Continous_Teleportation : MonoBehaviour
 
 
     Vector2 XYTurning;
-    public static Vector3 newPos, TurnPos;
+    public static Vector3 newPos, TurnPos, PostRosPos;
     private float tantheta, MovingRate;
 
     private Rigidbody _childrenRigidbody;
 
     //The below Ros realted Content are similar to eye_teleoperation.cs
     bool Navigation;
-    private GameObject teleop_mode;
+
+    public GameObject teleop_mode;
+    //ROS Connector
     ROSConnection m_Ros;
     string m_TopicName = "/stretch_diff_drive_controller/cmd_vel";
     void Start()
     {
-        if (ROS_Connection)
-        {
-            m_Ros = ROSConnection.GetOrCreateInstance();
-            m_Ros.RegisterPublisher<TwistMsg>(m_TopicName);
 
-        }
-        else
-        {
+        m_Ros = ROSConnection.GetOrCreateInstance();
+        m_Ros.RegisterPublisher<TwistMsg>(m_TopicName);
+        Debug.Log("Connection true");
 
 
-            _childrenRigidbody = children.GetComponent<Rigidbody>();
-
-        }
 
 
 
@@ -54,18 +49,18 @@ public class Continous_Teleportation : MonoBehaviour
     {
         //bool Is_turnning;
 
-
+        Navigation = teleop_mode.GetComponent<robot_follower>().nav_;
 
         if (!Navigation)
         {
 
             MovingRate = Continous_input_gaze.ExportAcc;
             XYTurning = Continous_input_gaze.ExportV2;
-            Navigation = teleop_mode.GetComponent<robot_follower>().nav_;
+
             tantheta = Mathf.Atan2(XYTurning.x, XYTurning.y); //angle calculation here
+            Debug.Log(XYTurning);
 
-
-            if (MovingRate > 0.15f)
+            if (MovingRate > 0.1f)
             {
                 //check if it's moving, the closer to the center ,lesser the velocity
 
@@ -74,6 +69,7 @@ public class Continous_Teleportation : MonoBehaviour
                 {
                     float targetAngle = tantheta;
                     TurnPos = new Vector3(0, targetAngle * TurningRate, 0);
+
                     if (!ROS_Connection)
                     {
                         _childrenRigidbody.angularVelocity = TurnPos;
@@ -81,11 +77,14 @@ public class Continous_Teleportation : MonoBehaviour
 
                 }
 
-                newPos = children.transform.forward * XYTurning.y;
+                newPos = new Vector3(0, XYTurning.y, 0);
+                newPos += newPos * speed;
+
             }
             else
             {
                 newPos = Vector3.zero;
+                TurnPos = Vector3.zero;
 
             }
 
@@ -97,7 +96,9 @@ public class Continous_Teleportation : MonoBehaviour
             }
             else
             {
-                PublishDataToRos(TurnPos, newPos);
+                Debug.Log($"Attempting to publish. ROS_Connection: {ROS_Connection}, m_Ros: {m_Ros != null}");
+
+                PublishDataToRos(newPos, TurnPos);
 
             }
 
@@ -109,8 +110,9 @@ public class Continous_Teleportation : MonoBehaviour
 
     private void PublishDataToRos(Vector3 position, Vector3 rotation)
     {
-        Vector3<FLU> x = new Vector3<FLU>(position);
-        Vector3<FLU> y = new Vector3<FLU>(rotation);
+        Vector3<FLU> x = new Vector3<FLU>(position.y, 0, 0);
+        Vector3<FLU> y = new Vector3<FLU>(0, 0, -1f * rotation.y);
+        Debug.Log($"FLU X{x},FLU Y{y}, position{newPos}, rotation{TurnPos}");
 
         var end_pos = new TwistMsg
         {
@@ -124,10 +126,6 @@ public class Continous_Teleportation : MonoBehaviour
     }
 
 }
-
-
-
-
 
 
 

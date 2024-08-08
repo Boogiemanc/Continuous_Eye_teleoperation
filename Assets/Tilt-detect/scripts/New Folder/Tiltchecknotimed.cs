@@ -1,20 +1,20 @@
 using Oculus.Interaction;
 using System.Collections;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class Tiltchecknotimed : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField]
     GameObject ArrowGroup_L, ArrowGroup_R, L_EYE, R_EYE, eyeGaze;
-   // [Header("Timed Gaze Check")]
+    // [Header("Timed Gaze Check")]
 
     //[SerializeField]
     float Time_threshold;
-    private Ray  GetRightTar_XRray;
+    private Ray GetRightTar_XRray;
     public static Ray GetLeftTar_XRray;
     private RayInteractor GetLeftTar_RayInspector, GetRightTar_RayInspector;
+    public static RaycastHit HitdataExport;
     private Vector3 PlayPos;
     void Awake()
     {
@@ -35,7 +35,7 @@ public class Tiltchecknotimed : MonoBehaviour
 
 
         }
-        
+
 
     }
     // Update is called once per frame
@@ -82,8 +82,8 @@ public class Tiltchecknotimed : MonoBehaviour
             Physics.Raycast(GetLeftTar_XRray, out RaycastHit hitdata_L);
             Physics.Raycast(GetRightTar_XRray, out RaycastHit hitdata_R);
             // Debug.Log($"hitdata point:{hitdata_L.point}\n");
-
-            Debug.Log($"RAY Cast Point {hitdata_L.point.ToVector3f()}\n");
+            HitdataExport = hitdata_L;
+            //Debug.Log($"RAY Cast Point {hitdata_L.point.ToVector3f()}\n");
 
             if (hitdata_L.collider)
             {
@@ -127,7 +127,7 @@ public class Tiltchecknotimed : MonoBehaviour
         GetLeftTar_XRray = L_EYE.GetComponent<RayInteractor>().Ray;
         GetRightTar_XRray = R_EYE.GetComponent<RayInteractor>().Ray;
         PlayPos = eyeGaze.transform.position;
-       
+
         Tag_Check();
 
     }
