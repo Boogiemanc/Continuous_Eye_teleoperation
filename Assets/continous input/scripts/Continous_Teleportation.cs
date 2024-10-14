@@ -114,7 +114,7 @@ public class Continous_Teleportation : MonoBehaviour
     {
         Vector3<FLU> x = new Vector3<FLU>(position.y, 0, 0);
         Vector3<FLU> y = new Vector3<FLU>(0, 0, -1f * rotation.y);
-        //Debug.Log($"FLU X{x},FLU Y{y}, position{newPos}, rotation{TurnPos}");
+
 
         var end_pos = new TwistMsg
         {
