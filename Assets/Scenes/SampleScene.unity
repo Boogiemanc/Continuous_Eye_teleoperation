@@ -1515,7 +1515,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.003921569}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1700,7 +1700,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.003921569}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2208,7 +2208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.003921569}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3101,7 +3101,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &918231812
 Transform:
   m_ObjectHideFlags: 0
@@ -3574,7 +3574,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.003921569}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -4175,11 +4175,11 @@ PrefabInstance:
       objectReference: {fileID: 200910360}
     - target: {fileID: 3089373064760082090, guid: e45f2fc5519797e42bd0675ba0bcc87d, type: 3}
       propertyPath: m_Name
-      value: Canvas (teleop)
+      value: Canvas (teleop) 12
       objectReference: {fileID: 0}
     - target: {fileID: 3089373064760082090, guid: e45f2fc5519797e42bd0675ba0bcc87d, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3089373064760082091, guid: e45f2fc5519797e42bd0675ba0bcc87d, type: 3}
       propertyPath: m_RootOrder
@@ -4230,11 +4230,6 @@ PrefabInstance:
 --- !u!4 &1258328827 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3089373064760082091, guid: e45f2fc5519797e42bd0675ba0bcc87d, type: 3}
-  m_PrefabInstance: {fileID: 1258328826}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1258328828 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3089373064760082090, guid: e45f2fc5519797e42bd0675ba0bcc87d, type: 3}
   m_PrefabInstance: {fileID: 1258328826}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1265186776
@@ -5672,7 +5667,12 @@ MonoBehaviour:
   - {fileID: 5213662553791253643}
   - {fileID: 5213662553450394505}
   - {fileID: 5213662554901841366}
-  - {fileID: 5213662554783457255}
+  - {fileID: 1758404928}
+  - {fileID: 629505445}
+  - {fileID: 996142065}
+  - {fileID: 359234217}
+  - {fileID: 360390554}
+  - {fileID: 1651479930}
   number: 0
 --- !u!1 &1598710267
 GameObject:
@@ -6055,7 +6055,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.003921569}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -6583,7 +6583,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.003921569}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -27027,7 +27027,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1258328828}
+      - m_Target: {fileID: 167754872}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6

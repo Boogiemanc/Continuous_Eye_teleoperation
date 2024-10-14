@@ -5,7 +5,11 @@ using UnityEngine;
 
 
 public class Continous_Teleportation : MonoBehaviour
-{
+{  //ROS CONTENT////
+    ROSConnection m_Ros;
+    string m_TopicName = "/stretch_diff_drive_controller/cmd_vel";
+    public GameObject teleop_mode;
+    //////////////////////////////
     [Header("Basic Values")]
 
     [SerializeField] float speed = 0.5f;
@@ -23,16 +27,13 @@ public class Continous_Teleportation : MonoBehaviour
     //The below Ros realted Content are similar to eye_teleoperation.cs
     bool Navigation;
 
-    public GameObject teleop_mode;
-    //ROS Connector
-    ROSConnection m_Ros;
-    string m_TopicName = "/stretch_diff_drive_controller/cmd_vel";
+
     void Start()
     {
 
         m_Ros = ROSConnection.GetOrCreateInstance();
         m_Ros.RegisterPublisher<TwistMsg>(m_TopicName);
-        Debug.Log("Connection true");
+
 
 
 
@@ -73,6 +74,7 @@ public class Continous_Teleportation : MonoBehaviour
                     if (!ROS_Connection)
                     {
                         _childrenRigidbody.angularVelocity = TurnPos;
+                        //DEBUG USE:turn gameobject "children" 
                     }
 
                 }
@@ -96,7 +98,7 @@ public class Continous_Teleportation : MonoBehaviour
             }
             else
             {
-                Debug.Log($"Attempting to publish. ROS_Connection: {ROS_Connection}, m_Ros: {m_Ros != null}");
+
 
                 PublishDataToRos(newPos, TurnPos);
 
@@ -112,7 +114,7 @@ public class Continous_Teleportation : MonoBehaviour
     {
         Vector3<FLU> x = new Vector3<FLU>(position.y, 0, 0);
         Vector3<FLU> y = new Vector3<FLU>(0, 0, -1f * rotation.y);
-        Debug.Log($"FLU X{x},FLU Y{y}, position{newPos}, rotation{TurnPos}");
+        //Debug.Log($"FLU X{x},FLU Y{y}, position{newPos}, rotation{TurnPos}");
 
         var end_pos = new TwistMsg
         {

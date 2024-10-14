@@ -3,8 +3,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Continous_input_gaze : MonoBehaviour
-{
-    [Header("Vector 3 debugging")]
+{//This script will first translate world point from eyeGaze's Raycast to the canvas on sight,
+    //then get the normalised point and export ACC
+    [Header("Camera")]
     [SerializeField] private GameObject centerEyeCamera;
 
 
@@ -48,9 +49,7 @@ public class Continous_input_gaze : MonoBehaviour
         _centerEyeCamera = centerEyeCamera.GetComponent<Camera>();
         canvasWidth = canvasRect.rect.width;
         canvasHeight = canvasRect.rect.height;
-        //DEBUG CANVAS
-        // edgeRect = edgeCanvas.GetComponent<RectTransform>();
-        //  debugText = canvas.GetComponent<TextMeshProUGUI>();
+
 
 
     }
@@ -153,7 +152,7 @@ public class Continous_input_gaze : MonoBehaviour
         {
             ISinarea = true;
 
-            //   stoparea_Render.color = Color.yellow;
+
 
             ISTracticking = false;
 
@@ -171,14 +170,7 @@ public class Continous_input_gaze : MonoBehaviour
 
 
 
-        // edgeRect.anchoredPosition = new Vector2(closest_point.x, closest_point.y); //map the edgepoint for better debuging
-        /* debugText.text =
-                            $"eyeGaze_Coords: {currentPoint}\n" +
-                            $"accerlation: {accerlation_scale}\n" +
-                           $"accerlation: {direction}\n" +
-                             $"newPos: {Continous_Teleportation.newPos}\n" */
 
-        ;
     }
 
 
@@ -190,7 +182,7 @@ public class Continous_input_gaze : MonoBehaviour
 
 
 
-    //export values to Continous_Teleportation
+    //export values to Continuous_Teleportation
 
     Vector2 ExportXYDirection(Vector2 _direction)
     {
@@ -228,6 +220,5 @@ public class Continous_input_gaze : MonoBehaviour
         return isInSquareY;
     }
 
-    ///getwidth , getheight
 
 }
